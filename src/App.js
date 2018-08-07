@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import List from './List/EditList';
+import List from './List/List';
 
 class App extends Component {
   render() {

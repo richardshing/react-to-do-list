@@ -42,7 +42,7 @@ class List extends Component {
 
     handleDoneTaskClick = (id, event) => {        
         console.log("Done: " + id);   
-        
+
         var newArray = this.state.taskArray.slice();
         var removeIndex = newArray.indexOf(id);
         newArray.splice(removeIndex, 1);
@@ -66,7 +66,16 @@ class List extends Component {
     }
 
     handleRemoveTaskClick = (id, event) => {
-        console.log(id);    
+        console.log("remove" + id);    
+
+        var newArray = this.state.taskArray.slice();
+        var removeIndex = newArray.indexOf(id);
+        newArray.splice(removeIndex, 1);
+        this.setState(
+            {
+                taskArray: newArray
+            }
+        );        
 /*
         var tasks = [];
         for(var i = 0; i < this.state.taskCount - 1; ++i){
@@ -90,8 +99,8 @@ class List extends Component {
         let fullList = this.state.taskArray.map((i) => {
             return <li key={i} className="cssTask">
             <Task taskId={i}/>
-            <input type="submit" className="completeTask" value="Done!" onClick={(e) => this.handleDoneTaskClick(i, e)}/>
-            <input type="submit" className="deleteTask" value="Remove" onClick={(e) => this.handleRemoveTaskClick(i, e)}/>            
+            <button className="completeTask" onClick={(e) => this.handleDoneTaskClick(i, e)}></button>
+            <button className="deleteTask" onClick={(e) => this.handleRemoveTaskClick(i, e)}></button>            
             </li>           
         })
 
