@@ -11,14 +11,13 @@ class Task extends Component {
 
         this.handleClick = this.handleClick.bind(this);
         this.updateTask = this.updateTask.bind(this);
-
       }
 
 
     updateTask = (event) => {
         this.setState( {
             taskValue: event.target.value
-        })
+        });
     }
 
     handleClick = (event) => {

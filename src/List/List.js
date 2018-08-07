@@ -6,8 +6,8 @@ class List extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            taskUniqId: 0,
-            taskArray: []
+          taskUniqId: 0,
+          taskArray: []
         };
 
         this.handleAddTaskClick = this.handleAddTaskClick.bind(this);
@@ -51,12 +51,14 @@ class List extends Component {
                 taskArray: newArray
             }
         );
-/*
+/*      Tried to have taskCount to monitor the amount of tasks,
+        but it didn't really work since I could have duplicate
+        values in  the array and messes up mapping.
+
         var tasks = [];
         for(var i = 0; i < this.state.taskCount - 1; ++i){
             tasks.push(i)
         }
-
         this.setState(
             (state) => ({ 
                 taskArray: tasks,
@@ -76,12 +78,15 @@ class List extends Component {
                 taskArray: newArray
             }
         );        
-/*
+
+/*      Tried to have taskCount to monitor the amount of tasks,
+        but it didn't really work since I could have duplicate
+        values in  the array and messes up mapping.
+
         var tasks = [];
         for(var i = 0; i < this.state.taskCount - 1; ++i){
             tasks.push(i)
         }
-
         this.setState(
             (state) => ({ 
                 taskArray: tasks,
@@ -89,6 +94,8 @@ class List extends Component {
         )
  */       
     }
+
+
 /*
     Have to put the submit buttons in the render so that I have control
     of the state still, otherwise I think I do not have access to the list
@@ -97,11 +104,17 @@ class List extends Component {
 
     render() {
         let fullList = this.state.taskArray.map((i) => {
-            return <li key={i} className="cssTask">
-            <Task taskId={i}/>
-            <button className="completeTask" onClick={(e) => this.handleDoneTaskClick(i, e)}></button>
-            <button className="deleteTask" onClick={(e) => this.handleRemoveTaskClick(i, e)}></button>            
-            </li>           
+            return (
+                <li key={i} className="cssTask">
+                <Task taskId={i}/>
+                <button className="completeTask" 
+                onClick={(e) => this.handleDoneTaskClick(i, e)}>
+                </button>
+                <button className="deleteTask" 
+                onClick={(e) => this.handleRemoveTaskClick(i, e)}>
+                </button>            
+                </li>   
+            );
         })
 
         return(

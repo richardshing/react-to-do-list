@@ -11,10 +11,7 @@ class App extends Component {
           <h1 className="App-title">Welcome!</h1>
         </header>
       
-        <List className="App-list"
-
-        />
-
+        <List className="App-list"/>
 
       </div>
     );
