@@ -1,0 +1,11 @@
+.Task{
+    margin: 5px;
+    padding: 5px; 
+    display: inline-block;
+}
+
+.completeTask{
+    background-image: "C:\Users\shing\ReactProject\to-do-list\src\Images\download.png";
+}   
+
+

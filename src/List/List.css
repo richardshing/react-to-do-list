@@ -1,0 +1,24 @@
+.List{
+    margin: 10px;
+    box-shadow: 0 2px 3px #ccc;
+    background-color: #f9fbff;
+
+}
+
+.completeTask{
+    width: 20px;
+    height: 20px;
+    background: url(../Images/checkmark.png);
+    margin: 2px;
+}
+
+.deleteTask{
+    width: 20px;
+    height: 20px;
+    background: url(../Images/x.png);   
+    margin: 2px;    
+}
+
+.cssTask{
+    list-style-type:none;
+}
