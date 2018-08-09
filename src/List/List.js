@@ -31,20 +31,22 @@ class List extends Component {
       }
 */
       handleAddTaskClick = (event) => {
+        event.preventDefault();
+        const task = this.refs.newTask.value;
         this.setState(
             (state) => ({ 
-                taskArray: [...state.taskArray, state.taskUniqId],
+                taskArray: [...state.taskArray, task],
                 taskUniqId: state.taskUniqId + 1})
         )
         console.log("add: " + this.state.taskUniqId)
         console.log("add: " + this.state.taskArray)
     }      
 
-    handleDoneTaskClick = (id, event) => {        
-        console.log("Done: " + id);   
+    handleDoneTaskClick = (task, event) => {        
+        console.log("Done: " + task);   
 
         var newArray = this.state.taskArray.slice();
-        var removeIndex = newArray.indexOf(id);
+        var removeIndex = newArray.indexOf(task);
         newArray.splice(removeIndex, 1);
         this.setState(
             {
@@ -67,11 +69,11 @@ class List extends Component {
 */
     }
 
-    handleRemoveTaskClick = (id, event) => {
-        console.log("remove" + id);    
+    handleRemoveTaskClick = (task, event) => {
+        console.log("remove " + task);    
 
         var newArray = this.state.taskArray.slice();
-        var removeIndex = newArray.indexOf(id);
+        var removeIndex = newArray.indexOf(task);
         newArray.splice(removeIndex, 1);
         this.setState(
             {
@@ -103,16 +105,13 @@ class List extends Component {
 */
 
     render() {
-        let fullList = this.state.taskArray.map((i) => {
+        let fullList = this.state.taskArray.map((task, i) => {
             return (
                 <li key={i} className="cssTask">
-                <Task taskId={i}/>
-                <button className="completeTask" 
-                onClick={(e) => this.handleDoneTaskClick(i, e)}>
-                </button>
-                <button className="deleteTask" 
-                onClick={(e) => this.handleRemoveTaskClick(i, e)}>
-                </button>            
+                <Task taskId={i} task={task} 
+                  completeTask={this.handleDoneTaskClick}   
+                  removeTask={this.handleRemoveTaskClick} 
+                />       
                 </li>   
             );
         })
@@ -124,9 +123,14 @@ class List extends Component {
                     {fullList}
                 </ul>
 
-                <input type="submit" 
-                value="Add a Task"
-                onClick={this.handleAddTaskClick}/>
+                <form onSubmit={this.handleAddTaskClick}>
+                  <input type="text" 
+                    placeholder=""
+                    ref="newTask"
+                  />
+                  <button>Add a Task</button>
+                </form>
+
             </div>
                 
         )
