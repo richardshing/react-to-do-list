@@ -11,9 +11,9 @@ class List extends Component {
         };
 
         this.handleAddTaskClick = this.handleAddTaskClick.bind(this);
-        this.handleDoneTaskClick = this.handleDoneTaskClick.bind(this);
+        this.handleEditComplete = this.handleEditComplete.bind(this);
         this.handleRemoveTaskClick = this.handleRemoveTaskClick.bind(this);
-
+        //this.UNSAFE_componentWillMount = this.UNSAFE_componentWillMount.bind(this);
       }
 
 /*
@@ -30,6 +30,22 @@ class List extends Component {
         );
       }
 */
+
+
+    UNSAFE_componentWillMount() 
+    {        
+  
+    }
+    
+    componentDidUpdate()
+    {
+
+    }
+
+    componentDidMount() 
+    { 
+    }
+
       handleAddTaskClick = (event) => {
         event.preventDefault();
         const task = this.refs.newTask.value;
@@ -38,21 +54,25 @@ class List extends Component {
                 taskArray: [...state.taskArray, task],
                 taskUniqId: state.taskUniqId + 1})
         )
+
+        this.refs.newTask.value = "";
         console.log("add: " + this.state.taskUniqId)
         console.log("add: " + this.state.taskArray)
     }      
 
-    handleDoneTaskClick = (task, event) => {        
-        console.log("Done: " + task);   
-
+    handleEditComplete = (newTaskValue, originalValue, event) => {        
+        console.log("Original: " + originalValue + "  New Value:" + newTaskValue);  
+        
         var newArray = this.state.taskArray.slice();
-        var removeIndex = newArray.indexOf(task);
-        newArray.splice(removeIndex, 1);
-        this.setState(
-            {
-                taskArray: newArray
-            }
-        );
+        var editIndex = newArray.indexOf(originalValue);
+        newArray[editIndex] = newTaskValue;
+        this.setState({
+            taskArray: newArray
+        });
+        console.log("Edit Index: " + editIndex);
+        console.log(this.state.taskArray);
+    }
+
 /*      Tried to have taskCount to monitor the amount of tasks,
         but it didn't really work since I could have duplicate
         values in  the array and messes up mapping.
@@ -67,7 +87,6 @@ class List extends Component {
                 taskCount: state.taskCount - 1})
         )
 */
-    }
 
     handleRemoveTaskClick = (task, event) => {
         console.log("remove " + task);    
@@ -105,12 +124,13 @@ class List extends Component {
 */
 
     render() {
-        let fullList = this.state.taskArray.map((task, i) => {
+        let fullList = this.state.taskArray.map((task) => {
+            console.log("task: " + task + " I: ") 
             return (
-                <li key={i} className="cssTask">
-                <Task taskId={i} task={task} 
-                  completeTask={this.handleDoneTaskClick}   
-                  removeTask={this.handleRemoveTaskClick} 
+                <li key={task} className="cssTask">
+                <Task taskId={task} task={task} 
+                  editComplete={this.handleEditComplete}   
+                  removeTask={this.handleRemoveTaskClick}
                 />       
                 </li>   
             );
@@ -125,7 +145,7 @@ class List extends Component {
 
                 <form onSubmit={this.handleAddTaskClick}>
                   <input type="text" 
-                    placeholder=""
+                    placeholder="Enter Task: "
                     ref="newTask"
                   />
                   <button>Add a Task</button>

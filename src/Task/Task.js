@@ -7,12 +7,14 @@ class Task extends Component {
         this.state = {
             taskId: props.taskId,
             taskValue: props.task,
+            editOriginalValue: props.task,
             isEditing: false
         };
 
         this.handleClick = this.handleClick.bind(this);
-        this.handleEditClick = this.handleClick.bind(this);
+        this.handleEditClick = this.handleEditClick.bind(this);
         this.updateTask = this.updateTask.bind(this);
+        this.onSaveClick = this.onSaveClick.bind(this);
       }
 
     
@@ -20,6 +22,7 @@ class Task extends Component {
         this.setState( {
             isEditing: true
         });
+        console.log("This click should be: " + this.state.taskValue);
     }
 
     updateTask = (event) => {
@@ -33,13 +36,22 @@ class Task extends Component {
             this.setState( {
                 taskValue: ""
             })
-        }
-        console.log(this.state.taskId);
+        } 
+        console.log("THIS: " + this.state.taskId);
 
+    }
+
+    onSaveClick = (event) => {
+        this.props.editComplete(this.state.taskValue, this.state.editOriginalValue, event)
+        this.setState(  (state) => ({
+            isEditing: false,
+            editOriginalValue: this.state.taskValue
+        }));
     }
 
     render() {
         if (this.state.isEditing) {
+            console.log("Task Value in Conditional: " + this.state.taskValue)
             return(
                 <p className="Task">
                     <input type="text" 
@@ -47,29 +59,32 @@ class Task extends Component {
                       onClick={this.handleClick}
                       onChange={this.updateTask}
                     />
+                    <button className="completeEdit"  
+                        onClick={(e) => this.onSaveClick(e)}
+                    >
+                    </button>                    
                 </p>
             );
         }
-        return(
-            <p className="Task">
-              { this.props.task }
-              <button
-                onClick={(e) => this.handleEditClick(e)}
-              >
-                Edit Task
-              </button>
-              <button className="completeTask" 
-                onClick={(e) => this.props.completeTask(this.props.task, e)}
-              >
-              </button>
-              <button className="deleteTask" 
-                onClick={(e) => this.props.removeTask(this.props.task, e)}
-              >
-              </button> 
-            </p>
-                
+        else {
+            return(
+                <p className="Task">
+                { this.props.task }
+                <button
+                    onClick={(e) => this.handleEditClick(e)}
+                >
+                    Edit Task
+                </button>
 
-        )
+                <button className="deleteTask" 
+                    onClick={(e) => this.props.removeTask(this.props.task, e)}
+                >
+                </button> 
+                </p>
+                    
+
+            );
+        }
     }
 }
 
